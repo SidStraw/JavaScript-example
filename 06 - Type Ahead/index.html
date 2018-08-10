@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeW3-1I853tCLA1DP4UdnbbjK_Px0BDfvsPPWW2Tck9s_SPuA/viewform?embedded=true" width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0" style="overflow: hidden;">載入中…</iframe>
+    <form class="search-form">
+        <input type="text" class="search" placeholder="City or State">
+        <ul class="suggestions">
+            <li>Filter for a city</li>
+            <li>or a state</li>
+        </ul>
+    </form>
+    <script>
+        const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+        const city = [];
+        fetch(endpoint)
+            .then(value => value.json())
+            .then(value => city.push(...value));
+        const input = document.querySelector('.search');
+        const queryArea = document.querySelector('.suggestions');
+
+        function findCity() {
+            let reg = new RegExp(input.value, 'gi');
+            // return city.city.match(reg)||city.state.match(reg);
+            let selectCity = city.filter(value => reg.test(value.city));
+            return selectCity;
+        }
+
+        function display() {
+            let html = '';
+            findCity().map(value => {
+                        let reg = new RegExp(input.value, 'gi');
+
+                        html += `<li>
+                    <span>
+                        ${value.city.replace(reg,`<span class="hl">${input.value}</span>`)} ,
+                        ${value.state.replace(reg,`<span class="hl">${input.value}</span>`)}
+                    </span>
+                    <span class="population">${value.population.replace(/(?=(\d{3})+(?!\d))\B/g,',')}</span>
+                </li>`;
+            })
+            queryArea.innerHTML = html;
+        }
+
+        input.addEventListener('change',display);
+        input.addEventListener('keyup',display);
+    </script>
+</body>
+
+</html>

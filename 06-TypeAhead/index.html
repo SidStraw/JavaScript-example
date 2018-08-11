@@ -21,8 +21,20 @@
 
         const city = [];
         fetch(endpoint)
-            .then(value => value.json())
-            .then(value => city.push(...value));
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    var error = new Error(response.statusText)
+                    error.response = `傳輸異常，代號：${response}`;
+                    throw error
+                }
+            })
+            .then(value => city.push(...value))
+            .catch(e => console.error(e));
+
+
+
         const input = document.querySelector('.search');
         const queryArea = document.querySelector('.suggestions');
 

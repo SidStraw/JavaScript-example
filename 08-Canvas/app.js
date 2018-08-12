@@ -22,8 +22,8 @@ function draw(e) {
     ctx.strokeStyle = `HSL(${hsl},50%,50%)`;
     ctx.stroke(); //將設定好的圖像繪出
     hsl++;
-    if (hsl >= 360) hsl = 0;//顏色變化
-    if (ctx.lineWidth >= 100) lineAdd = false;//線條變化
+    if (hsl >= 360) hsl = 0; //顏色變化
+    if (ctx.lineWidth >= 100) lineAdd = false; //線條變化
     else if (ctx.lineWidth <= 1) lineAdd = true;
     lineAdd ? ctx.lineWidth++ : ctx.lineWidth--;
 

@@ -14,16 +14,17 @@ ctx.lineCap = 'round'
 
 
 function draw(e) {
-    if (!drawing) return;
-    ctx.beginPath();
-    ctx.moveTo(downX, downY);
-    ctx.lineTo(e.offsetX, e.offsetY);
+    if (!drawing) return; //判斷滑鼠是否已點擊
+    ctx.beginPath(); //將每個點獨立以避免顏色一起變化
+    ctx.moveTo(downX, downY); //設定起始位置
+    ctx.lineTo(e.offsetX, e.offsetY); //設定終點位置
     [downX, downY] = [e.offsetX, e.offsetY];
     ctx.strokeStyle = `HSL(${hsl},50%,50%)`;
-    ctx.stroke();
+    ctx.stroke(); //將設定好的圖像繪出
     hsl++;
-    if (hsl >= 360) hsl = 0;
-    ctx.lineWidth <= 100 ? lineAdd = true : lineAdd = false;
+    if (hsl >= 360) hsl = 0;//顏色變化
+    if (ctx.lineWidth >= 100) lineAdd = false;//線條變化
+    else if (ctx.lineWidth <= 1) lineAdd = true;
     lineAdd ? ctx.lineWidth++ : ctx.lineWidth--;
 
 }
